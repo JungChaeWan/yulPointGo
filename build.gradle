@@ -30,18 +30,18 @@ tasks.named('test') {
 }
 
 //render에서 사용
+/*
 application {
     mainClassName = 'com.example.yulpoint.YulpointApplication'
 }
 
-/*task setupJavaEnv {
+task setupJavaEnv {
     doLast {
         def javaHome = System.getenv("JAVA_HOME") ?: "/opt/render/project/.java"
         def path = System.getenv("PATH")
         System.setProperty("java.home", javaHome)
         System.setProperty("java.path", "${javaHome}/bin:${path}")
     }
-}*/
 
 task printJavaEnv {
     doLast {
@@ -53,4 +53,46 @@ task printJavaEnv {
 
 tasks.withType(JavaCompile) {
     dependsOn setupJavaEnv
+}*/
+
+bootRun {
+    mainClassName = 'com.example.yulpoint.YulpointApplication'
+}
+
+task setupJavaEnv {
+    doLast {
+        def possibleJavaHomes = [
+                "/opt/render/project/.java",
+                "/usr/lib/jvm/java-11-openjdk",
+                "/usr/lib/jvm/java-11-openjdk-amd64",
+                System.getenv("JAVA_HOME"),
+                System.getProperty("java.home")
+        ]
+
+        def javaHome = possibleJavaHomes.find { it && new File(it).exists() }
+        if (javaHome) {
+            def path = System.getenv("PATH")
+            System.setProperty("java.home", javaHome)
+            System.setProperty("java.path", "${javaHome}/bin:${path}")
+            println "JAVA_HOME set to: " + javaHome
+        } else {
+            throw new GradleException("No valid JAVA_HOME found. Please set JAVA_HOME environment variable.")
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    dependsOn setupJavaEnv
+}
+
+task printJavaEnv {
+    doLast {
+        println "JAVA_HOME: " + System.getenv("JAVA_HOME")
+        println "java.home: " + System.getProperty("java.home")
+        println "PATH: " + System.getenv("PATH")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    dependsOn printJavaEnv
 }
