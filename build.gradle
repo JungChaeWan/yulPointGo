@@ -29,16 +29,25 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+//render에서 사용
 application {
     mainClassName = 'com.example.yulpoint.YulpointApplication'
 }
 
-task setupJavaEnv {
+/*task setupJavaEnv {
     doLast {
         def javaHome = System.getenv("JAVA_HOME") ?: "/opt/render/project/.java"
         def path = System.getenv("PATH")
         System.setProperty("java.home", javaHome)
         System.setProperty("java.path", "${javaHome}/bin:${path}")
+    }
+}*/
+
+task printJavaEnv {
+    doLast {
+        println "JAVA_HOME: " + System.getenv("JAVA_HOME")
+        println "java.home: " + System.getProperty("java.home")
+        println "PATH: " + System.getenv("PATH")
     }
 }
 
