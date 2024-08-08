@@ -32,7 +32,13 @@ tasks.named('test') {
 application {
     mainClassName = 'com.example.yulpoint.YulpointApplication'
 }
-
+task printJavaEnv {
+    doLast {
+        println "JAVA_HOME: " + System.getenv("JAVA_HOME")
+        println "java.home: " + System.getProperty("java.home")
+        println "PATH: " + System.getenv("PATH")
+    }
+}
 task setupJavaEnv {
     doLast {
         def javaHome = System.getenv("JAVA_HOME") ?: "/opt/render/project/.java"
