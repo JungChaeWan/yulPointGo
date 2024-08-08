@@ -1,5 +1,12 @@
 package com.example.yulpoint.rep;
 
-public interface PointRepository extends JpaRepository<Point, Long> {
-    // JPA 메서드 정의
+import com.example.yulpoint.vo.tb_point;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface PointRepository extends JpaRepository<tb_point, Long> {
+    tb_point findFirstByOwnerAndPointTypeOrderBySeqDesc(String owner, String pointType);
 }

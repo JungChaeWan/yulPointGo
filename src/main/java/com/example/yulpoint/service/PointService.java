@@ -1,7 +1,11 @@
 package com.example.yulpoint.service;
 
+import com.example.yulpoint.rep.PointRepository;
+import com.example.yulpoint.vo.tb_point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PointService {
@@ -9,13 +13,19 @@ public class PointService {
     @Autowired
     private PointRepository pointRepository;
 
-    public Point getPointById(Long id) {
-        return pointRepository.findById(id).orElse(null);
+    public tb_point getPointsByOwner(String owner, String pointType) {
+        return pointRepository.findFirstByOwnerAndPointTypeOrderBySeqDesc(owner, pointType);
     }
 
-    public Point createPoint(Point point) {
+    public tb_point savePoint(tb_point point) {
+        if (point.getUsePoint() > 0) {
+            point.setBalancePoint(point.getBalancePoint()-point.getUsePoint());
+        }
+
+        if(point.getAddPoint() > 0) {
+            point.setBalancePoint(point.getBalancePoint()+point.getAddPoint());
+        }
+
         return pointRepository.save(point);
     }
-
-    // 추가적인 비즈니스 로직...
 }

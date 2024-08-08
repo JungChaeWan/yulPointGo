@@ -1,33 +1,26 @@
 package com.example.yulpoint.controller;
 
 import com.example.yulpoint.service.PointService;
+import com.example.yulpoint.vo.tb_point;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/points")
 public class PointController {
 
     @Autowired
     private PointService pointService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Point> getPoint(@PathVariable Long id) {
-        Point point = pointService.getPointById(id);
-        if (point != null) {
-            return ResponseEntity.ok(point);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @GetMapping("/selPoints")
+    public tb_point getPointsByOwner(@RequestParam String owner, @RequestParam String pointType) {
+        return pointService.getPointsByOwner(owner, pointType);
     }
 
-    @PostMapping
-    public ResponseEntity<Point> createPoint(@RequestBody Point point) {
-        Point createdPoint = pointService.createPoint(point);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPoint);
+    @GetMapping("/add")
+    public tb_point addPoint(@ModelAttribute tb_point point) {
+        return pointService.savePoint(point);
     }
 
-    // 다른 CRUD 메서드들...
 }
