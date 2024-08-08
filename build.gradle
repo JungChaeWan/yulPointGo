@@ -39,14 +39,7 @@ task printJavaEnv {
         println "PATH: " + System.getenv("PATH")
     }
 }
-task setupJavaEnv {
-    doLast {
-        def javaHome = System.getenv("JAVA_HOME") ?: "/opt/render/project/.java"
-        def path = System.getenv("PATH")
-        System.setProperty("java.home", javaHome)
-        System.setProperty("java.path", "${javaHome}/bin:${path}")
-    }
-}
+
 
 tasks.withType(JavaCompile) {
     dependsOn setupJavaEnv
