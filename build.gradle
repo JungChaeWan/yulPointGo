@@ -28,3 +28,20 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+application {
+    mainClassName = 'com.example.yulpoint.YulpointApplication'
+}
+
+task setupJavaEnv {
+    doLast {
+        def javaHome = System.getenv("JAVA_HOME") ?: "/opt/render/project/.java"
+        def path = System.getenv("PATH")
+        System.setProperty("java.home", javaHome)
+        System.setProperty("java.path", "${javaHome}/bin:${path}")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    dependsOn setupJavaEnv
+}
