@@ -17,5 +17,5 @@ COPY src ./src
 # 애플리케이션을 빌드합니다.
 RUN ./gradlew build --no-daemon
 
-# 생성된 JAR 파일을 실행합니다.
-CMD ["java", "-jar", "build/libs/YulpointApplication.jar"]
+# JAR 파일을 실행합니다.
+CMD ["java", "-jar", "build/libs/yulpoint-application.jar"]
