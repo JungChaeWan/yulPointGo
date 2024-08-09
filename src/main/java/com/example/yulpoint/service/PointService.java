@@ -18,12 +18,13 @@ public class PointService {
     }
 
     public tb_point savePoint(tb_point point) {
-        if (point.getUsePoint() > 0) {
-            point.setBalancePoint(point.getBalancePoint()-point.getUsePoint());
+        tb_point selPoint = pointRepository.findFirstByOwnerAndPointTypeOrderBySeqDesc(point.getOwner(), point.getPointType());
+        if (point.getUsePoint() != null && point.getUsePoint() > 0) {
+            point.setBalancePoint(selPoint.getBalancePoint()-point.getUsePoint());
         }
 
-        if(point.getAddPoint() > 0) {
-            point.setBalancePoint(point.getBalancePoint()+point.getAddPoint());
+        if (point.getAddPoint() != null && point.getAddPoint() > 0) {
+            point.setBalancePoint(selPoint.getBalancePoint()+point.getAddPoint());
         }
 
         return pointRepository.save(point);

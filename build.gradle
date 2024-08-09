@@ -31,5 +31,5 @@ tasks.named('test') {
 
 bootJar {
     archiveFileName = 'yulpoint-application.jar'
-    mainClassName = 'com.example.yulpoint.YulpointApplication'
+    mainClass = 'com.example.yulpoint.YulpointApplication'
 }
